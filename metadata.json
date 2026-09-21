@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix BitFlow",
+  "description": "Bitcoin Intelligence and Real-time Blockchain Traffic Monitoring Dashboard",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

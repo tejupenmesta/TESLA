@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated investigator user profile and SOC role settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth user UID" },
+        "fullName": { "type": "string", "description": "Investigator full name" },
+        "email": { "type": "string", "description": "Investigator email address" },
+        "photoURL": { "type": "string", "description": "Profile picture URL" },
+        "employeeId": { "type": "string", "description": "SOC employee credential ID" },
+        "role": { "type": "string", "description": "Investigator duty role" },
+        "department": { "type": "string", "description": "Division or agency unit" },
+        "lastLoginAt": { "type": "string", "description": "ISO timestamp of last sign-in" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of account creation" }
+      },
+      "required": ["uid", "email"]
+    },
+    "investigationNote": {
+      "title": "InvestigationNote",
+      "description": "Investigator notes and forensic tags for suspect Bitcoin accounts and transactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique note ID" },
+        "userId": { "type": "string", "description": "UID of the investigator who created the note" },
+        "userEmail": { "type": "string", "description": "Email of the investigator" },
+        "targetAccount": { "type": "string", "description": "Suspect address, member ID, or tx hash" },
+        "targetName": { "type": "string", "description": "Person or entity name" },
+        "classification": { "type": "string", "description": "SCAMMER, GENUINE, or UNDER_REVIEW" },
+        "severity": { "type": "string", "description": "CRITICAL, HIGH, MEDIUM, or LOW" },
+        "findings": { "type": "string", "description": "Detailed investigative notes and findings" },
+        "evidenceUrls": { "type": "string", "description": "Optional URLs or references to evidence" },
+        "createdAt": { "type": "string", "description": "ISO creation timestamp" },
+        "updatedAt": { "type": "string", "description": "ISO last update timestamp" }
+      },
+      "required": ["id", "userId", "targetAccount", "findings", "createdAt"]
+    },
+    "watchlistItem": {
+      "title": "WatchlistItem",
+      "description": "Suspect Bitcoin address or member actively watchlisted by the investigator",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique watchlist item ID" },
+        "userId": { "type": "string", "description": "UID of the investigator" },
+        "entityId": { "type": "string", "description": "Member ID, wallet address, or person name" },
+        "entityName": { "type": "string", "description": "Name of the entity" },
+        "category": { "type": "string", "description": "Category e.g. Ponzi Operator, Mule Account, Phishing Victim" },
+        "reason": { "type": "string", "description": "Reason for watchlisting" },
+        "flaggedBtcAmount": { "type": "number", "description": "Estimated BTC amount flagged" },
+        "addedAt": { "type": "string", "description": "ISO timestamp when added to watchlist" }
+      },
+      "required": ["id", "userId", "entityId", "addedAt"]
+    },
+    "watchedWallet": {
+      "title": "WatchedWallet",
+      "description": "Pinned Bitcoin wallet addresses for high-frequency dashboard surveillance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique watched wallet record ID" },
+        "userId": { "type": "string", "description": "UID of the investigator" },
+        "address": { "type": "string", "description": "Bitcoin wallet address" },
+        "label": { "type": "string", "description": "Custom label or owner description" },
+        "category": { "type": "string", "description": "SUSPECT, EXCHANGE, WHALE, MIXER, GENUINE, or CUSTOM" },
+        "riskScore": { "type": "number", "description": "Risk score (0-100)" },
+        "notes": { "type": "string", "description": "Investigator notes for this pinned address" },
+        "pinnedAt": { "type": "string", "description": "ISO timestamp when pinned" },
+        "balanceBtc": { "type": "number", "description": "Current balance in BTC" },
+        "txCount": { "type": "number", "description": "Recorded transaction count" }
+      },
+      "required": ["id", "userId", "address", "label", "pinnedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "User profile documents keyed by Firebase Auth UID"
+    },
+    "/investigationNotes/{noteId}": {
+      "schema": "investigationNote",
+      "description": "Forensic case investigation notes and evidence logs"
+    },
+    "/watchlistItems/{itemId}": {
+      "schema": "watchlistItem",
+      "description": "Investigator watchlist records for suspect wallets and entities"
+    },
+    "/watchedWallets/{walletId}": {
+      "schema": "watchedWallet",
+      "description": "Pinned Bitcoin wallet records for quick monitoring on the Dashboard"
+    }
+  }
+}
